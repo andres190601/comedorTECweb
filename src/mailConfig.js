@@ -1,26 +1,62 @@
 
 export const nodemailer = require('nodemailer');
-const { jsPDF } = require("jspdf"); 
+const { jsPDF } = require("jspdf");
+
+// Require the package
+const QRCode = require('qrcode')
+
+export function createQr() {
+    // Creating the data
+    let data = {
+        name: "Employee Name",
+        age: 27,
+        department: "Police",
+        id: "aisuoiqu3234738jdhf100223"
+    }
+
+    // Converting the data into String format
+    let stringdata = JSON.stringify(data)
+
+    // Print the QR code to terminal
+    QRCode.toString(stringdata, { type: 'terminal' },
+        function (err, QRcode) {
+
+            if (err) return console.log("error occurred")
+
+            // Printing the generated code
+            console.log(QRcode)
+        })
+
+    // Converting the data into base64
+    QRCode.toFile("qr.png", stringdata, function (err) {
+        if (err) return console.log("error occurred")
+    })
+}
+
+
 
 export const transporter = nodemailer.createTransport({
     host: "smtp-mail.outlook.com", // hostname
     secureConnection: false, // TLS requires secureConnection to be false
     port: 587, // port for secure SMTP
     tls: {
-       ciphers:'SSLv3'
+        ciphers: 'SSLv3'
     },
     auth: {
         user: 'shopatwhiskybrothers3@outlook.com',
         pass: 'proyectobases2'
     }
-  });
+});
 
 
 
 export function sendMail(clientMail, body) {
     const doc = new jsPDF();
     doc.text("Hello world!", 10, 10);
-    doc.save("a4.pdf"); 
+    doc.save("a4.pdf");
+
+    createQr();
+    /*
 
     var mailOptions = {
         from: 'shopatwhiskybrothers3@outlook.com', // sender address (who sends)
@@ -39,6 +75,6 @@ export function sendMail(clientMail, body) {
         }
     
         console.log('Message sent: ' + info.response);
-      });
+      });*/
 
-  }
+}
