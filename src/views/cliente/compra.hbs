@@ -46,6 +46,7 @@
                     <th>Tipo&nbsp;alimento</th>
                     <th>Tiempo</th>
                     <th>Precio&nbsp;en&nbsp;colones</th>
+                    <th>Cantidad</th>
                 </tr>
             </thead>
 
@@ -59,9 +60,17 @@
                     <td>{{Tipo}}</td>
                     <td>{{nombre_tiempo_comida}}</td>
                     <td>{{precio_alimento}}</td>
-                    <form action="/agregarCarrito" method="POST">
-                        <td><button class="btn btn-primary">AGREGAR</button></td>
+
+                    <form action="/addProductToCart" method="POST"  >
+                        <input type="hidden" name="alimentoId" value={{id_alimento}}>
+                        <input type="hidden" name="alimentoNombre" value={{nombre_alimento}}>
+                        <input type="hidden" name="alimentoTipo" value={{Tipo}}>
+                        <input type="hidden" name="alimentoPrecio" value={{precio_alimento}}>
+
+                        <td><input type="number"  min="0" name="cantidad" class="form-control"></td>
+                        <td><button class="btn btn-primary" onclick="alert('Product added to cart.')">AGREGAR</button></td>
                     </form>
+                    <iframe id="uploader_iframe" name="uploader_iframe" style="display: none;"></iframe>
                 </tr>
                 {{/each}}
 

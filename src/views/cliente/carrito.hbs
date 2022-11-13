@@ -1,0 +1,44 @@
+<div class="'col-md-4 mx-auto">
+    <br>
+    <h3>CARRITO DE COMPRAS</h3>
+    <table class="table">
+        <br>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre&nbsp;alimento</th>
+                <th>Tipo&nbsp;alimento</th>
+                <th>Precio&nbsp;en&nbsp;colones</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+
+        <tbody id="productTable" class="collection with-header">
+
+            {{#each user.shoppingCart}}
+            <tr>
+                {{#each this}}
+                <th>{{this}}</th>
+                
+                {{/each}}
+                <form action="/" method="POST" target="uploader_iframe">
+                    <input type="hidden" name="jsonAlimento" value={{this}}>
+                    <td><button class="btn btn-primary" onclick="alert('Product added to cart.')">ELIMINAR</button></td>
+                </form>
+            </tr>
+            {{/each}}
+
+        </tbody>
+
+        
+
+    </table>
+    <h5>TOTAL</h5>
+    <h5>{{total}}</h5>
+    <form action="/confirmarCompra" method="POST" >
+                <button class="btn btn-primary" onclick="alert('Comprado')">PROCESAR COMPRA</button>
+    </form>
+    
+</div>
+

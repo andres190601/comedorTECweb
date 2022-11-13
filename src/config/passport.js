@@ -9,6 +9,7 @@ passport.use(new localStrategy(
     let clientID = 0;
     let userType = 0;
     let shoppingCart = [];
+    let shoppingCartBD = [];
     
     try {
       const pool = await getConnection();
@@ -27,12 +28,12 @@ passport.use(new localStrategy(
       }
       const loginInfo = result.recordset[0];
       clientEmail = loginInfo.email_usuario;
-      clientID = loginInfo.IdUsuario;
+      clientID = loginInfo.IdPersona;
       userType = loginInfo.IdTipoUsuario;
     } catch (error) {
       console.log(error);
     }
-    let user = { clientEmail, clientID, userType, shoppingCart};
+    let user = { clientEmail, clientID, userType, shoppingCart,shoppingCartBD};
     return done(null, user, { message: "Usted se ha loggueado exitosamente." });
   }));
 
