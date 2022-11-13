@@ -1,5 +1,6 @@
 
 export const nodemailer = require('nodemailer');
+const { jsPDF } = require("jspdf"); 
 
 export const transporter = nodemailer.createTransport({
     host: "smtp-mail.outlook.com", // hostname
@@ -17,12 +18,20 @@ export const transporter = nodemailer.createTransport({
 
 
 export function sendMail(clientMail, body) {
+    const doc = new jsPDF();
+    doc.text("Hello world!", 10, 10);
+    doc.save("a4.pdf"); 
+
     var mailOptions = {
         from: 'shopatwhiskybrothers3@outlook.com', // sender address (who sends)
         to: clientMail, // list of receivers (who receives)
         subject: 'PURCHASE CONFIRMATION', // Subject line
-        text: 'Dear: ' ,  // plaintext body
-        html:  body// html body
+        text: 'Facturita: ' ,  // plaintext body
+        attachments: [{
+            filename: 'a4.pdf',
+            path: './a4.pdf',
+            contentType: 'application/pdf'
+          }],
     };
     transporter.sendMail(mailOptions, function(error, info){
         if(error){
