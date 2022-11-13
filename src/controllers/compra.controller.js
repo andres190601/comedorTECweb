@@ -1,4 +1,5 @@
 import { getConnection, querys, sql } from "../database";
+import {sendMail} from '../mailConfig';
 
 //OBTENER TODOS LOS ALIMENTOS
 export const getAlimentos = async (req, res) => {
@@ -95,6 +96,11 @@ export const confirmarCompra = async (req, res) => {
 
         req.user.shoppingCart = [];
         req.user.shoppingCartBD = [];
+
+        let body = '<b> ESOOOO BRO: '+' has been sent.. </b><br>'
+            body = body + 'Processed by: '+ '</b><br>'
+            body = body + 'Shipping Manager: '+ '</b><br>'
+        sendMail(req.user.clientEmail,body)
         res.redirect("/loadCarrito");
     } catch (error) {
         res.status(500);
