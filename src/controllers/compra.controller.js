@@ -49,12 +49,14 @@ export const cargarBusqueda = async (req, res) => {
 export const addProductToCart = (req, res) => {
     const { alimentoId, cantidad, alimentoNombre, alimentoPrecio, alimentoTipo } = req.body;
     var boughtProductInfo = {
+        numeroItem:  Number(req.user.shoppingCart.length),
         idProduct: Number(alimentoId),
         nombre: alimentoNombre,
         tipo: alimentoTipo,
         precio: Number(alimentoPrecio),
         quantity: Number(cantidad),
         subtotal: Number(Number(cantidad) * Number(alimentoPrecio)),
+        
     };
 
     var boughtProductInfoDB = {
@@ -84,23 +86,29 @@ export const loadCarrito = (req, res) => {
 
 //CONFIRMAR COMPRA
 export const confirmarCompra = async (req, res) => {
-    console.log("llegaa")
-    console.log(req.user.shoppingCartBD)
-    console.log(req.user.clientID)
     try {
         const pool = await getConnection()
         const result = await pool.request()
             .input('jsonAlimentos', JSON.stringify(req.user.shoppingCartBD))
             .input('idCliente', parseInt(req.user.clientID))
             .execute('generarCompra')
-        console.log(result)
 
         req.user.shoppingCart = [];
         req.user.shoppingCartBD = [];
-        //res.render('cliente/compra', { result_alimentos, resultTiempos, result_tipos });
-    console.log(result_alimentos)
+        res.redirect("/loadCarrito");
     } catch (error) {
         res.status(500);
         res.send(error.message);
     }
 }
+
+
+
+export const eliminarDelCarrito = (req, res) => {
+    console.log("aquiii")
+    console.log(req.body.idItem);
+    req.user.shoppingCart.splice(req.body.idItem,1);
+    req.user.shoppingCartBD.splice(req.body.idItem,1);
+    res.redirect("/loadCarrito");
+}
+

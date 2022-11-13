@@ -5,6 +5,7 @@
         <br>
         <thead>
             <tr>
+                <th># Item</th>
                 <th>ID</th>
                 <th>Nombre&nbsp;alimento</th>
                 <th>Tipo&nbsp;alimento</th>
@@ -20,25 +21,26 @@
             <tr>
                 {{#each this}}
                 <th>{{this}}</th>
-                
+
                 {{/each}}
-                <form action="/" method="POST" target="uploader_iframe">
-                    <input type="hidden" name="jsonAlimento" value={{this}}>
-                    <td><button class="btn btn-primary" onclick="alert('Product added to cart.')">ELIMINAR</button></td>
-                </form>
+
             </tr>
             {{/each}}
 
         </tbody>
 
-        
+
 
     </table>
     <h5>TOTAL</h5>
     <h5>{{total}}</h5>
-    <form action="/confirmarCompra" method="POST" >
-                <button class="btn btn-primary" onclick="alert('Comprado')">PROCESAR COMPRA</button>
+    <form action="/confirmarCompra" method="POST">
+        <button class="btn btn-primary" onclick="alert('Comprado')">PROCESAR COMPRA</button>
     </form>
-    
-</div>
 
+    <form action="/eliminarDelCarrito" method="POST" target="uploader_iframe">
+        <input type="number"  min="0" name="idItem" class="form-control">
+        <button class="btn btn-primary" onclick="alert('ELIMINADO')">ELIMINAR</button>
+    </form>
+
+</div>
