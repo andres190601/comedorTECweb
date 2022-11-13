@@ -5,6 +5,7 @@ import cors from "cors";
 import userRoutes from "./routes/users.routes";
 import alimentosCRUD from "./routes/alimentosCRUD.routes"
 import adminRoutes from "./routes/admin.routes"
+import compraRoutes from    "./routes/compra.route"
 import morgan from "morgan";
 import moment from 'moment';
 import methodOverride from "method-override";
@@ -100,6 +101,7 @@ app.use(multer({
 app.use(userRoutes);
 app.use(alimentosCRUD);
 app.use(adminRoutes);
+app.use(compraRoutes);
 
 
 //Helpers
