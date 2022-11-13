@@ -24,11 +24,11 @@ export function createQr() {
             if (err) return console.log("error occurred")
 
             // Printing the generated code
-            console.log(QRcode)
+            //console.log(QRcode)
         })
 
     // Converting the data into base64
-    QRCode.toFile("qr.png", stringdata, function (err) {
+    QRCode.toFile("qr.jpeg", stringdata, function (err) {
         if (err) return console.log("error occurred")
     })
 }
@@ -50,12 +50,27 @@ export const transporter = nodemailer.createTransport({
 
 
 
+var fs = require('fs');
+
+// function to encode file data to base64 encoded string
+function base64_encode(file) {
+    // read binary data
+    var bitmap = fs.readFileSync(file);
+    // convert binary data to base64 encoded string
+    return new Buffer(bitmap).toString('base64');
+}
+
+
 export function sendMail(clientMail, body) {
+    createQr();
+    var img = base64_encode('qr.jpeg');
+
     const doc = new jsPDF();
-    doc.text("Hello world!", 10, 10);
+    doc.text("OTROOOO!", 10, 10);
+    doc.addImage(img, 'JPEG', 10, 40, 180, 180);
     doc.save("a4.pdf");
 
-    createQr();
+    
     /*
 
     var mailOptions = {
