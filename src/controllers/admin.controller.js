@@ -219,3 +219,37 @@ export const cargarModificarPedido = async (req, res) => {
         res.send(error.message);
     }
 };
+
+export const modificarPedido = async (req, res) => {
+    var { idCliente, fechaCompra, idCompra } = req.body
+    console.log(req.body)
+    try {
+        if (idCliente == -1) {
+            idCliente = null;
+        }
+        if (!fechaCompra) {
+            fechaCompra = null;
+        }
+        const pool = await getConnection();
+        const resultado = await pool.request()
+            .input('idCliente', idCliente)
+            .input('fechaCompra', fechaCompra)
+            .input('idPedido', idCompra)
+            .execute(`modificarCompra`)
+        if (resultado.returnValue == 0) {
+            req.flash("success_msg", "Usted ha actualizado el pedido correctamente.");
+            res.redirect("/cargarMenuPedidos");
+        }
+        else if (resultado.returnValue == 1) {
+            req.flash("error_msg", "No se encontró el cliente enviado, por favor inténtelo de nuevo.");
+            res.redirect("/cargarMenuPedidos");
+        }
+        else {
+            req.flash("error_msg", "Error inesperado, por favor inténtelo de nuevo.");
+            res.redirect("/cargarMenuPedidos");
+        }
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
