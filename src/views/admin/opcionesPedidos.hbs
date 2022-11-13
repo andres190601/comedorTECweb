@@ -1,0 +1,78 @@
+<div class="'col-md-4 mx-auto">
+    <div class="card" style="width: 72rem;">
+        <div class="'card-header">
+            <h3>MENU PEDIDOS</h3>
+        </div>
+        <div class="card-body">
+            <form action="/cargarMenuPedidosId" method="POST">
+                <div class="form-group">
+                    <input type="number" class="form-control" name="idCompra"
+                        placeholder="Buscar orden de compra por ID" required>
+                </div>
+                <button class="btn btn-primary btn-block" type="submit">
+                    BUSCAR
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="'col-md-4 mx-auto">
+    <br>
+    <table class="table">
+        <h3>INFORMACIÓN DE PEDIDOS</h3>
+        <br>
+        <thead>
+            <tr>
+                <th>ID&nbsp;compra</th>
+                <th>ID&nbsp;Cliente</th>
+                <th>Nombre&nbsp;completo</th>
+                <th>Carnet</th>
+                <th>Cédula</th>
+                <th>Correo&nbsp;completo</th>
+                <th>Fecha&nbsp;de&nbsp;compra</th>
+                <th>Total&nbsp;en&nbsp;colones</th>
+                <th>Estado</th>
+                <th>Eliminar</th>
+                <th>Modificar</th>
+                <th>Detalle</th>
+            </tr>
+        </thead>
+
+        <tbody id="productTable" class="collection with-header">
+
+            {{#each resultPedidos}}
+            <tr>
+                <td>{{id_compra}}</td>
+                <td>{{id_cliente}}</td>
+                <td>{{nombre_persona}} {{apellido1_persona}} {{apellido2_persona}}</td>
+                <td>{{carnet_persona}}</td>
+                <td>{{cedula_persona}}</td>
+                <td>{{correo_usuario}}</td>
+                <td>{{formatTime fecha_compra "DD-MM-YYYY"}}</td>
+                <td>{{total_compra}}</td>
+                <td>{{nombre_estado_compra}}</td>
+                <form action="/borrarCompra" method="POST">
+                    <input type="hidden" name="idCompra" value={{id_compra}}></td>
+                    <td><button class="btn btn-primary">Borrar</button></td>
+                </form>
+                <form action="/modificarCompra" method="POST">
+                    <input type="hidden" name="idCompra" value={{id_compra}}></td>
+                    <input type="hidden" name="estadoActual" value={{nombre_estado_compra}}></td>
+                    <input type="hidden" name="nombreClienteActual" value={{nombre_persona}}></td>
+                    <input type="hidden" name="apellido1Actual" value={{apellido1_persona}}></td>
+                    <input type="hidden" name="apellido2Actual" value={{apellido2_persona}}></td>
+                    <input type="hidden" name="idClienteActual" value={{id_cliente}}></td>
+                    <input type="hidden" name="fechaActual" value={{formatTime fecha_compra "DD-MM-YYYY"}}></td>
+                    <td><button class="btn btn-primary">Modificar</button></td>
+                </form>
+                <form action="/detalleCompra" method="POST">
+                    <input type="hidden" name="idCompra" value={{id_compra}}></td>
+                    <input type="hidden" name="totalCompra" value={{total_compra}}></td>
+                    <td><button class="btn btn-primary">Detalle</button></td>
+                </form>
+            </tr>
+            {{/each}}
+
+        </tbody>
+</div>

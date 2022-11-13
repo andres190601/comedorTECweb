@@ -1,0 +1,67 @@
+<div class="row">
+    <div class="col-md-4 mx-auto">
+        <div class="card mt-4 text-center">
+            <div class="card-header">
+                <h1 class="h4">
+                    Change subscription
+                </h1>
+            </div>
+            <div class="card-body">
+                <div class="form-group"></div>
+                <form action="/users/uploadChangeSubscription" method="POST">
+                    <label for="exampleFormControlSelect1">Subscription type</label><br>
+                    <div class="form-group">
+                        <select class="form-control" name="newSubscription">
+                            {{#each subscriptionInfo}}
+                            <option value={{id_subscription}}>{{name_subscription}}</option>
+
+                            {{/each}}
+                        </select>
+                        
+                    </div>
+            </div>
+            <button class="btn btn-primary btn-block">
+                Change
+            </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="'col-md-4 mx-auto">
+
+    <h3>SUBSCRIPTION INFO</h3>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID&nbsp;Code</th>
+                <th>Subscription&nbsp;name</th>
+                <th>Description&nbsp;subscription</th>
+                <th>Discount&nbsp;on&nbsp;purchase</th>
+                <th>Price&nbsp;subscription($)</th>
+                <th>Price&nbsp;In&nbsp;Your&nbsp;Money</th>
+                <th>Discount&nbsp;on&nbsp;shipping</th>
+                <th>Active</th>
+                <th>Special</th>
+            </tr>
+        </thead>
+
+        <tbody id="productTable" class="collection with-header">
+
+            {{#each subscriptionInfo}}
+            <tr>
+                <td>{{id_subscription}}</td>
+                <td>{{name_subscription}}</td>
+                <td>{{description_subscription}}</td>
+                <td>%{{discount_subscription}}</td>
+                <td>${{price_subscription}}</td>
+                <td>{{newPrice}}</td>
+                <td>%{{discount_shipping}}</td>
+                <td>{{active}}</td>
+                <td>{{special}}</td>
+            </tr>
+            {{/each}}
+
+        </tbody>
+</div>
