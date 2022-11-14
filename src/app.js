@@ -46,7 +46,8 @@ app.use(express.static(__dirname + '/public/css'));
 
 // settings
 app.set('port', config.port);
-app.set('views', path.join(__dirname,'views'));
+app.set('views', path.join(process.cwd() + '/views'));
+app.use(express.static(path.join(process.cwd() + '/public')));
 app.engine(".hbs", engine({
     layoutsDir: path.join(app.get('views'),'layouts'),
     partialsDir: path.join(app.get('views'),'partials'),
