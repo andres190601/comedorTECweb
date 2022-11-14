@@ -5,14 +5,9 @@ const { jsPDF } = require("jspdf");
 // Require the package
 const QRCode = require('qrcode')
 
-export function createQr() {
+export function createQr(data) {
     // Creating the data
-    let data = {
-        name: "Employee Name",
-        age: 27,
-        department: "Police",
-        id: "aisuoiqu3234738jdhf100223"
-    }
+
 
     // Converting the data into String format
     let stringdata = JSON.stringify(data)
@@ -61,8 +56,8 @@ function base64_encode(file) {
 }
 
 
-export function sendMail(clientMail, body) {
-    createQr();
+export function sendMail(clientMail) {
+    //createQr();
     var img = base64_encode('qr.jpeg');
 
     const doc = new jsPDF();
@@ -70,9 +65,7 @@ export function sendMail(clientMail, body) {
     doc.addImage(img, 'JPEG', 10, 40, 180, 180);
     doc.save("a4.pdf");
 
-    
     /*
-
     var mailOptions = {
         from: 'shopatwhiskybrothers3@outlook.com', // sender address (who sends)
         to: clientMail, // list of receivers (who receives)

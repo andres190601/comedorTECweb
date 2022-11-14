@@ -1,5 +1,5 @@
 import { getConnection, querys, sql } from "../database";
-import {sendMail} from '../mailConfig';
+import { sendMail,createQr } from '../mailConfig';
 
 //OBTENER TODOS LOS ALIMENTOS
 export const getAlimentos = async (req, res) => {
@@ -50,14 +50,14 @@ export const cargarBusqueda = async (req, res) => {
 export const addProductToCart = (req, res) => {
     const { alimentoId, cantidad, alimentoNombre, alimentoPrecio, alimentoTipo } = req.body;
     var boughtProductInfo = {
-        numeroItem:  Number(req.user.shoppingCart.length),
+        numeroItem: Number(req.user.shoppingCart.length),
         idProduct: Number(alimentoId),
         nombre: alimentoNombre,
         tipo: alimentoTipo,
         precio: Number(alimentoPrecio),
         quantity: Number(cantidad),
         subtotal: Number(Number(cantidad) * Number(alimentoPrecio)),
-        
+
     };
 
     var boughtProductInfoDB = {
@@ -97,10 +97,17 @@ export const confirmarCompra = async (req, res) => {
         req.user.shoppingCart = [];
         req.user.shoppingCartBD = [];
 
-        let body = '<b> ESOOOO BRO: '+' has been sent.. </b><br>'
-            body = body + 'Processed by: '+ '</b><br>'
-            body = body + 'Shipping Manager: '+ '</b><br>'
-        sendMail(req.user.clientEmail,body)
+        const result2 = await pool.request()
+            .input('idCompra', 1)
+            .input('estado', 1)
+            .execute('infoCompra')
+        const result_factura = result2.recordset;
+
+        let data = result_factura[0]
+        createQr(data)
+
+        sendMail(req.user.clientEmail)
+    
         res.redirect("/loadCarrito");
     } catch (error) {
         res.status(500);
@@ -113,8 +120,8 @@ export const confirmarCompra = async (req, res) => {
 export const eliminarDelCarrito = (req, res) => {
     console.log("aquiii")
     console.log(req.body.idItem);
-    req.user.shoppingCart.splice(req.body.idItem,1);
-    req.user.shoppingCartBD.splice(req.body.idItem,1);
+    req.user.shoppingCart.splice(req.body.idItem, 1);
+    req.user.shoppingCartBD.splice(req.body.idItem, 1);
     res.redirect("/loadCarrito");
 }
 
