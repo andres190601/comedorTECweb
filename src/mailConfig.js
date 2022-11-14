@@ -45,27 +45,11 @@ export const transporter = nodemailer.createTransport({
 
 
 
-var fs = require('fs');
 
-// function to encode file data to base64 encoded string
-function base64_encode(file) {
-    // read binary data
-    var bitmap = fs.readFileSync(file);
-    // convert binary data to base64 encoded string
-    return new Buffer(bitmap).toString('base64');
-}
 
 
 export function sendMail(clientMail) {
-    //createQr();
-    var img = base64_encode('qr.jpeg');
-
-    const doc = new jsPDF();
-    doc.text("OTROOOO!", 10, 10);
-    doc.addImage(img, 'JPEG', 10, 40, 180, 180);
-    doc.save("a4.pdf");
-
-    /*
+  
     var mailOptions = {
         from: 'shopatwhiskybrothers3@outlook.com', // sender address (who sends)
         to: clientMail, // list of receivers (who receives)
@@ -83,6 +67,6 @@ export function sendMail(clientMail) {
         }
     
         console.log('Message sent: ' + info.response);
-      });*/
+      });
 
 }

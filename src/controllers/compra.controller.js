@@ -1,5 +1,17 @@
 import { getConnection, querys, sql } from "../database";
 import { sendMail,createQr } from '../mailConfig';
+const { jsPDF } = require("jspdf");
+
+var fs = require('fs');
+
+// function to encode file data to base64 encoded string
+function base64_encode(file) {
+    // read binary data
+    var bitmap = fs.readFileSync(file);
+    // convert binary data to base64 encoded string
+    return new Buffer(bitmap).toString('base64');
+}
+
 
 //OBTENER TODOS LOS ALIMENTOS
 export const getAlimentos = async (req, res) => {
@@ -105,6 +117,33 @@ export const confirmarCompra = async (req, res) => {
 
         let data = result_factura[0]
         createQr(data)
+        var img = base64_encode('qr.jpeg');
+
+        const doc = new jsPDF();
+        doc.setFontSize(15);
+        doc.text('Nombre del cliente: '+result_factura[0].nombreCliente+" "+result_factura[0].apellido1Cliente+" "+result_factura[0].apellido2Cliente,10,10)
+        doc.text('Carnet: '+result_factura[0].carnetCliente,10,15)
+        doc.text('# de compra: '+result_factura[0].id_compra,10,20)
+        doc.text('Fecha: '+result_factura[0].fecha_compra,10,25)
+        doc.text('Total: '+result_factura[0].total_compra,10,30)
+
+        const result3 = await pool.request()
+            .input('idCompra', Number(result_factura[0].id_compra))
+            .execute('readPedidosXCompra')
+        const result_lineas = result3.recordset;
+
+        let x = 40
+        for(let i = 0; i < result_lineas.length; i++) {
+            let obj = result_lineas[i];
+            x += i*5
+            doc.text(obj.nombre_alimento+"Precio :"+obj.precio_alimento+"Cant: "+obj.cantidad+"Subtotal: "+obj.subtotal,10,40+i*5)
+            
+        }
+
+
+        //doc.text("OTROOOO!", 10, 10);
+        doc.addImage(img, 'JPEG', 10, x+5, 180, 180);
+        doc.save("a4.pdf");
 
         sendMail(req.user.clientEmail)
     
