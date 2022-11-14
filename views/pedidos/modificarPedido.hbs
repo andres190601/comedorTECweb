@@ -1,0 +1,56 @@
+<div class="'col-md-4 mx-auto">
+    <div class="card" style="width: 72rem;">
+        <div class="'card-header">
+            <h3>MODIFICAR PEDIDO</h3>
+        </div>
+        <div class="card-body">
+            <form action="/modificarPedido" method="POST">
+                <input type="hidden" name="idCompra" value={{idCompra}}></td>
+                <h5>Cliente que realizó la compra</h5>
+                <select name="idCliente" class="form-control" id="ids_ProductType">
+                    <option value=-1>No cambiar valor</option>
+                    {{#each resultClientes}}
+                    <option value={{id_persona}}>{{nombre_persona}} {{apellido1_persona}} {{apellido2_persona}} ||
+                        {{id_persona}}</option>
+                    {{/each}}
+                </select><br>
+                <h5>Fecha de compra</h5>
+                <div class="form-group">
+                    <input type="date" class="form-control" name="fechaCompra" min="1900-01-01"
+                        value="{{fechanacimiento}}" />
+                </div>
+                <button class="btn btn-primary btn-block" type="submit">
+                    MODIFICAR
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="'col-md-4 mx-auto">
+        <br>
+        <table class="table">
+            <h3>INFORMACIÓN ACTUAL DEL PEDIDO</h3>
+            <br>
+            <thead>
+                <tr>
+                    <th>ID&nbsp;compra</th>
+                    <th>ID&nbsp;Cliente</th>
+                    <th>Nombre&nbsp;completo</th>
+                    <th>Fecha&nbsp;de&nbsp;compra</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+
+            <tbody id="productTable" class="collection with-header">
+
+                <tr>
+                    <td>{{idCompra}}</td>
+                    <td>{{idClienteActual}}</td>
+                    <td>{{nombreClienteActual}} {{apellido1Actual}} {{apellido2Actual}}</td>
+                    <td>{{fechaActual}}</td>
+                    <td>{{estadoActual}}</td>
+                </tr>
+
+            </tbody>
+    </div>
+</div>

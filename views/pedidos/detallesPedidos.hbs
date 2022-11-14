@@ -1,0 +1,28 @@
+<div class="'col-md-4 mx-auto">
+    <br>
+    <table class="table">
+        <h3>Detalle del pedido {{idPedido}}</h3>
+        <h5>Total de la compra: ₡{{totalCompra}}</h5>
+        <br>
+        <thead>
+            <tr>
+                <th>Nombre&nbsp;alimento</th>
+                <th>Cantidad</th>
+                <th>Precio&nbsp;en&nbsp;colones</th>
+                <th>Subtotal&nbsp;en&nbsp;colones</th>
+            </tr>
+        </thead>
+
+        <tbody id="productTable" class="collection with-header">
+
+            {{#each resultPedidos}}
+            <tr>
+                <td>{{nombre_alimento}}</td>
+                <td>{{cantidad}}</td>
+                <td>{{precio_alimento}}</td>
+                <td>{{subtotal}}</td>
+            </tr>
+            {{/each}}
+
+        </tbody>
+</div>
